@@ -13,7 +13,7 @@ const newGrid = (size) => {
 }
 
 // check duplicate number in col
-const isColSafe = (grid, col, value) => {
+const checkCol = (grid, col, value) => {
     for (let row = 0; row < CONSTANT.GRID_SIZE; row++) {
         if (grid[row][col] === value) return false;
     }
@@ -21,7 +21,7 @@ const isColSafe = (grid, col, value) => {
 }
 
 // check duplicate number in row
-const isRowSafe = (grid, row, value) => {
+const checkRow = (grid, row, value) => {
     for (let col = 0; col < CONSTANT.GRID_SIZE; col++) {
         if (grid[row][col] === value) return false;
     }
@@ -29,7 +29,7 @@ const isRowSafe = (grid, row, value) => {
 }
 
 // check duplicate number in 3x3 box
-const isBoxSafe = (grid, box_row, box_col, value) => {
+const checkBox = (grid, box_row, box_col, value) => {
     for (let row = 0; row < CONSTANT.BOX_SIZE; row++) {
         for (let col = 0; col < CONSTANT.BOX_SIZE; col++) {
             if (grid[row + box_row][col + box_col] === value) return false;
@@ -40,7 +40,7 @@ const isBoxSafe = (grid, box_row, box_col, value) => {
 
 // check in row, col and 3x3 box
 const isSafe = (grid, row, col, value) => {
-    return isColSafe(grid, col, value) && isRowSafe(grid, row, value) && isBoxSafe(grid, row - row%3, col - col%3, value) && value !== CONSTANT.UNASSIGNED;
+    return checkCol(grid, col, value) && checkRow(grid, row, value) && checkBox(grid, row - row%3, col - col%3, value) && value !== CONSTANT.UNASSIGNED;
 }
 
 // find unassigned cell
@@ -58,7 +58,6 @@ const findUnassignedPos = (grid, pos) => {
 }
 
 // shuffle arr
-//用于在生成数独时随机打乱数字。
 const shuffleArray = (arr) => {
     let curr_index = arr.length;
 
@@ -74,8 +73,7 @@ const shuffleArray = (arr) => {
     return arr;
 }
 
-// check puzzle is complete
-// 确定数独是否已经完全填充，以便进行数独的生成和部分填充。
+// to check puzzle complete
 const isFullGrid = (grid) => {
     return grid.every((row, i) => {
         return row.every((value, j) => {

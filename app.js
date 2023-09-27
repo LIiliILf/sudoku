@@ -1,7 +1,6 @@
 // initial value
 
 // screens
-//分别获取了具有特定 id 的HTML元素
 const start_screen = document.querySelector('#start-screen');
 const game_screen = document.querySelector('#game-screen');
 const pause_screen = document.querySelector('#pause-screen');
@@ -32,7 +31,6 @@ let su_answer = undefined;
 let selected_cell = -1;
 
 // --------
-
 const getGameInfo = () => JSON.parse(localStorage.getItem('game'));
 
 // add space for each 9 cells
@@ -68,7 +66,6 @@ const initSudoku = () => {
     clearSudoku();
     resetBackground();
     // generate sudoku puzzle
-    // 存储在 su 变量中。
 
     su = sudokuGen(level);
     su_answer = [...su.question];
@@ -211,7 +208,7 @@ const checkErr = (value) => {
         step += 1;
     }
 }
-//移除错误的格子
+
 const removeErr = () => cells.forEach(e => e.classList.remove('err'));
 
 const saveGameInfo = () => {
@@ -320,7 +317,7 @@ const returnStartScreen = () => {
     result_screen.classList.remove('active');
 }
 
-// add button event
+// add button
 document.querySelector('#button-level').addEventListener('click', (e) => {
     level_index = level_index + 1 > CONSTANT.LEVEL.length - 1 ? 0 : level_index + 1;
     level = CONSTANT.LEVEL[level_index];
@@ -339,7 +336,7 @@ document.querySelector('#button-play').addEventListener('click', () => {
         }, 500);
     }
 });
-//处理游戏的暂停、继续、重新开始、格子的
+
 document.querySelector('#button-continue').addEventListener('click', () => {
     if (name_input.value.trim().length > 0) {
         loadSudoku();
