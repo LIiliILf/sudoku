@@ -20,7 +20,7 @@ how to run it
 
 [Play Free Sudoku online - solve web sudoku puzzles](https://sudoku.com/)
 
-![请添加图片描述](README/90edf8d7006a4b5a9be4b157a84bf81a.jpeg)
+![RECORD](https://img-blog.csdnimg.cn/90edf8d7006a4b5a9be4b157a84bf81a.jpeg)
 
 ## 1、NABCD
 
