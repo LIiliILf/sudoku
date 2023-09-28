@@ -10,11 +10,17 @@ how to run it
 | 这个作业要求在哪里   | [结对作业一要求](https://bbs.csdn.net/topics/617255492)      |
 | 个人学号             | 102299105                                                    |
 | 结对成员学号         | 102299110                                                    |
-| GitHub 仓库地址      | [<GitHub仓库地址>](https://github.com/LIiliILf/sudoku)       |
+| GitHub 仓库地址      | [GitHub仓库地址](https://github.com/LIiliILf/sudoku)         |
 
 ---
 
 # 一、需求分析
+
+首先，要玩几局数独好好地了解需求对吧
+
+[Play Free Sudoku online - solve web sudoku puzzles](https://sudoku.com/)
+
+![请添加图片描述](README/90edf8d7006a4b5a9be4b157a84bf81a.jpeg)
 
 ## 1、NABCD
 
