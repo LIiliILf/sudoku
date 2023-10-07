@@ -81,9 +81,7 @@ const isFullGrid = (grid) => {
         });
     });
 }
-/*
-生成数独。用递归填充grid.先找到一个未分配的位置，尝试在放上数字。
-*/
+
 const sudokuCreate = (grid) => {
     let unassigned_pos = {
         row: -1,
@@ -97,24 +95,19 @@ const sudokuCreate = (grid) => {
     let row = unassigned_pos.row;
     let col = unassigned_pos.col;
 
-    number_list.forEach((num, i) => {
+    for (let num of number_list) {
         if (isSafe(grid, row, col, num)) {
             grid[row][col] = num;
 
-            if (isFullGrid(grid)) {
-                console.table(grid);
+            if (sudokuCreate(grid)) {
                 return true;
-            } else {
-                if (sudokuCreate(grid)) {
-                    return true;
-                }
             }
 
             grid[row][col] = CONSTANT.UNASSIGNED;
         }
-    });
+    }
 
-    return isFullGrid(grid);
+    return false;
 }
 //check
 const sudokuCheck = (grid) => {
@@ -172,4 +165,34 @@ const sudokuGen = (level) => {
         }
     }
     return undefined;
+}
+// 异步函数，返回一个包含两个数独对象的数组
+const generateSudokus = async (level) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const sudoku1 = newGrid(CONSTANT.GRID_SIZE);
+            const sudoku2 = newGrid(CONSTANT.GRID_SIZE);
+
+            if (sudokuCreate(sudoku1) && sudokuCreate(sudoku2)) {
+                const question1 = removeCells(sudoku1, level);
+                const question2 = removeCells(sudoku2, level);
+                resolve([{
+                    original: sudoku1,
+                    question: question1
+                }, {
+                    original: sudoku2,
+                    question: question2
+                }]);
+            } else {
+                reject("Failed to generate sudokus.");
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+// 导出异步函数
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = generateSudokus;
 }

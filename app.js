@@ -88,6 +88,58 @@ const initSudoku = () => {
     }
 }
 
+// const numSudokus = 5; // 指定要生成的数独容器数量
+
+// const initSudoku = () => {
+//     // 清除旧的数独容器
+//     const sudokuContainers = document.querySelectorAll('.main-sudoku-grid');
+//     sudokuContainers.forEach(container => container.remove());
+
+//     // 为每个数独容器生成新的数独并添加到文档中
+//     for (let i = 1; i <= numSudokus; i++) {
+//         const sudokuContainer = document.createElement('div');
+//         sudokuContainer.classList.add('main-sudoku-grid');
+//         sudokuContainer.id = `sudoku-container-${i}`;
+//         document.body.appendChild(sudokuContainer); // 将容器添加到文档的 body 中
+
+//         // 生成新的数独
+//         const su = sudokuGen(level);
+//         const cells = [];
+
+//         // 遍历所有格子，将格子的data-value属性设置为对应数独的值。
+//         for (let i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++) {
+//             let row = Math.floor(i / CONSTANT.GRID_SIZE);
+//             let col = i % CONSTANT.GRID_SIZE;
+//             const cell = document.createElement('div');
+//             cell.classList.add('main-grid-cell');
+//             cell.setAttribute('data-row', row);
+//             cell.setAttribute('data-col', col);
+//             cell.setAttribute('data-value', su.question[row][col]);
+
+//             if (su.question[row][col] !== 0) {
+//                 cell.classList.add('filled');
+//                 cell.innerHTML = su.question[row][col];
+//             }
+
+//             sudokuContainer.appendChild(cell);
+//             cells.push(cell);
+//         }
+
+//         // 为格子绑定事件处理程序（示例：点击事件）
+//         cells.forEach(cell => {
+//             cell.addEventListener('click', () => {
+//                 // 处理单元格点击事件的逻辑
+//                 console.log('Cell Clicked:', cell.getAttribute('data-row'), cell.getAttribute('data-col'));
+//             });
+//         });
+
+//         // 其他初始化逻辑...
+//     }
+// };
+
+
+
+
 const loadSudoku = () => {
     let game = getGameInfo();
 

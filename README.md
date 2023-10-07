@@ -3,136 +3,151 @@ how to run it
 1. git clone 
 2. open "index.html"
 
-# 2023秋软工实践 第一次结对编程作业
+# 2023秋软工实践 第二次结对编程作业
 
 | 这个作业属于哪个课程 | [软件工程](https://bbs.csdn.net/forums/fzusdn-0831?typeId=4994744) |
 | -------------------- | ------------------------------------------------------------ |
-| 这个作业要求在哪里   | [结对作业一要求](https://bbs.csdn.net/topics/617255492)      |
-| 个人学号             | 102299105                                                    |
-| 结对成员学号         | 102299110                                                    |
-| GitHub 仓库地址      | [GitHub仓库地址](https://github.com/LIiliILf/sudoku)         |
+| 这个作业要求在哪里   | [结对作业二要求](https://bbs.csdn.net/topics/617335682)      |
+| 个人学号             | 102299110                                                    |
+| 结对成员学号         | 102299105                                                    |
+| GitHub 仓库地址      | [<GitHub仓库地址>](https://github.com/LIiliILf/sudoku)       |
 
 ---
 
-# 一、需求分析
 
-首先，要玩几局数独好好地了解需求对吧
 
-[Play Free Sudoku online - solve web sudoku puzzles](https://sudoku.com/)
-
-![RECORD](https://img-blog.csdnimg.cn/90edf8d7006a4b5a9be4b157a84bf81a.jpeg)
-
-## 1、NABCD
-
-### N（需求）
-
-此任务需要开发一个网页端,能够并发生成9个独立的九宫格数独。每个数独的生成都是随机且各不相同，供娱乐和挑战。
-
-**1.1 功能需求**
-
-用户可选择生成数独的难度级别，共有5个级别：Easy 、Medium、Hard、Expert、Evil。游戏以九宫格形式展示，每个数独万字块内1-9数字随机均匀配置,且无重复。支持用户填写、清除、检查答案等功能。提供错误处理机制和用户操作提示。
-
-**1.2 性能需求**
-
-快速生成9个数独游戏，减少等待时间，保持性能稳定。
-
-**1.3 用户界面需求**
-
-简洁直观的用户界面，包括选项、游戏界面和结果展示。用户友好的数字填写和清除功能。
-
-### A（行动）
-
-●设计用户友好的界面，支持选项选择和游戏操作。
-●实现并发生成算法，提高性能。
-●使用前端技术呈现数独九宫格和功能。
-●用户可在每个数独单元内点击选择数字。
-●添加检查答案和错误处理功能。
-
-### B（好处）
-
-●提供娱乐和挑战，满足用户需求。
-●适用各年龄段用户的简洁界面。
-●允许用户自定义难度级别。
-●提供“重新开始”按钮,一键重新生成随机数独。
-●生成数独游戏确保质量。
-●并发生成提高效率，减少等待时间。
-
-### C （Competitors竞争）
-
-●成本包括人力、服务器、工具、测试和维护。
-●确保ddl内完成项目。
-
-### D（交付）
-
-●包括需求分析、原型设计、代码实现、测试、用户反馈和漏洞修复。
-●按时交付，确保软件质量和性能满足用户需求。
-
-##  2.纸画模型
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/3346a6075afd4f63a59a51595b2f2b92.jpeg)
-
-## 3、PSP表格
+## PSP表格
 
 | 子任务                   | 预估用时 | 实际用时 |
 | ------------------------ | -------- | -------- |
 | 计划                     | 0.5h     | 0.5h     |
 | 估计这个任务需要多少时间 | 0.3h     | 0.3h     |
-| 需求分析 NABCD           | 2h       | 4h       |
-| 生成设计文档             | 1h       | 1h       |
-| 代码规范                 | 0.5h     | 0.5h     |
-| 原型设计                 | 2h       | 3h       |
-| 开发                     | 6h       | 7h       |
+| 具体设计                 | 1h       | 1.5h     |
+| 开发                     | 5h       | 6h       |
 | 计算工作量               | 0.5h     | 0.5h     |
-| 博客报告、总结           | 1h       | 3h       |
+| 博客报告、总结           | 1.5h     | 2h       |
 
-# 二、原型展示
+## 纸画模型
+![纸画](https://img-blog.csdnimg.cn/0f5e228c3d264d0e83e0a3d5d00a598a.jpeg)
 
-## 1、原型展示
+##  相关算法
 
-原型工具：墨刀
-具体链接：[原型展示链接](https://modao.cc/proto/ijVpXEwus1js79NFVO1rRS/sharing?view_mode=read_only)
-具体页面如下：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/d28bedb8bc034ca893c2d3ba5b5aaa3b.png)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/882b333cc4cd4694bcd0eec8f9a22d72.png)
+### 数独求解算法
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/c2298790b47e492aa75952169336d7af.png)
+```
+const sudokuCreate = (grid) => {
+    let unassigned_pos = {
+        row: -1,
+        col: -1
+    }
 
-##  三、相关算法
+    if (!findUnassignedPos(grid, unassigned_pos)) return true;
 
-### 1、数独随机生成及可解性
+    let number_list = shuffleArray([...CONSTANT.NUMBERS]);
+
+    let row = unassigned_pos.row;
+    let col = unassigned_pos.col;
+
+    for (let num of number_list) {
+        if (isSafe(grid, row, col, num)) {
+            grid[row][col] = num;
+
+            if (sudokuCreate(grid)) {
+                return true;
+            }
+
+            grid[row][col] = CONSTANT.UNASSIGNED;
+        }
+    }
+
+    return false;
+}
+```
 
  `sudokuCreate(grid)` 函数：
 
-   - 这是生成数独游戏的核心函数，它使用递归来尝试在格子中放置数字，并确保生成的数独游戏是合法的。
-   - 该函数会不断地尝试填充数字，直到生成一个完整的数独游戏，然后返回 `true`，或者如果无法继续填充则返回 `false`。
+   - 这是一个递归的深度优先搜索算法，它使用递归来尝试在格子中放置数字，并确保生成的数独游戏是合法的。
 
- `removeCells(grid, level)` 函数：
+   - 然后采用了回溯，会不断地尝试填充数字，直到生成一个完整的数独游戏，然后返回 `true`，或者如果无法继续填充则返回 `false`。
 
-   - 该函数用于根据难度级别从已生成的数独游戏中移除一些数字，以生成数独谜题。它随机选择格子并将其值设为未分配。
+     主要的流程如下：
 
- `sudokuGen(level)` 函数：
+1. **初始化未分配位置：** 函数开始时，`unassigned_pos`对象的`row`和`col`属性都被设置为-1，表示没有找到未分配位置。
+2. **查找未分配位置：** 调用`findUnassignedPos(grid, unassigned_pos)`函数，如果找到未分配位置，将其坐标存储在`unassigned_pos`对象中。
+3. **尝试放置数字：** 使用`shuffleArray`函数随机打乱数字的尝试顺序。然后对于每个数字，检查是否可以安全地放置在当前位置（使用`isSafe`函数进行检查）。
+4. **递归尝试下一个位置：** 如果可以安全地放置数字，将该数字放入网格，并递归调用`sudokuCreate`函数来尝试在下一个位置放置数字。如果在递归调用中找到了解，返回`true`，表示找到了一个有效的解。
+5. **回溯：** 如果递归调用中无法找到解，将当前位置的数字重新设为未分配（常量`CONSTANT.UNASSIGNED`），撤销该数字的放置。然后，继续尝试下一个数字。
+6. **返回结果：** 如果所有数字都尝试过，且没有找到解，返回`false`，表示无法生成一个有效的数独谜题。
 
-   - 用于生成数独谜题的主要函数。它首先调用 `sudokuCreate` 生成一个完整的数独游戏，然后调用 `removeCells` 来根据难度级别移除一些数字，生成最终的数独谜题。
+想了一下如何显示答案，还是觉得放在console里面比较好，做不出来再看答案。
 
- **生成完整数独：** 首先，生成一个完整的数独游戏，也就是一个已经填满数字但仍然合法的数独。这个步骤通常是通过递归算法即使用了 `sudokuCreate(grid)` 函数来实现。
+### 并发
 
- **移除数字：** 一旦您生成了一个完整的数独，接下来的步骤是根据难度级别从数独中移除一些数字，以生成数独谜题。这一步骤是通过 `removeCells(grid, level)` 函数来完成的。根据难度级别，您可以选择移除对应的数字量。
+思路：使用`async`和`await`实现。将`sudokuGen`函数改造为异步函数，然后使用`Promise`和`Promise.all`来并发生成数独。
 
-其他函数（检查是否重复之类的）具体见sudoku.js
+```
+const sudokuGen = async (level) => {
+    const generateSudoku = async () => {
+        let sudoku = newGrid(CONSTANT.GRID_SIZE);
+        let check = sudokuCreate(sudoku);
+        if (check) {
+            let question = removeCells(sudoku, level);
+            return {
+                original: sudoku,
+                question: question
+            };
+        }
+        return undefined;
+    };
 
-### 2.生成效果如下
+    const generatePromises = Array.from({ length: 9 }, () => generateSudoku());
 
- - **开始菜单 / 游戏界面-选中格子会有对应高亮**
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/ce771071c67744ca9e198956c441761c.png)
- - **答案错误 / 游戏暂停 / 通关成功** 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/3fa1a1ed466e44e697db8e779d12c3cb.png)
-### 3.可解性可以在控制台检查
+    const sudokus = await Promise.all(generatePromises);
+    return sudokus;
+};
 
-用了console.table()输出最终解用于检查测试。
+// 调用方式
+const generateNineSudokus = async () => {
+    const sudokus = await sudokuGen(level);
+    // sudokus 数组包含了9个与原来一样的数独
+    console.log(sudokus);
+};
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/61c5dfcae69540e08dea6e1e9a052734.png)
+// 调用函数
+generateNineSudokus();
 
-# 四、结对记录
+```
+
+创建了一个内部的异步函数`generateSudoku`，该函数用于生成单个数独。然后，使用`Array.from`创建了包含9个`generateSudoku`函数调用的数组，并将这些调用包装在`Promise`中。使用`Promise.all`来并发执行这些`Promise`，返回一个包含9个数独的数组。最后，在`generateNineSudokus`函数中调用`sudokuGen`。
+
+### 重点难点
+
+数独求解算法：采用深度优先和回溯，这样的复杂度还是挺高的，感受是之前学的理论好像可以用上了。
+
+如何实现判断填入的数独的对错。
+
+在sudoku.js中的**`sudokuCheck(grid)`函数：** 这个函数用于检查填入的数独是否符合数独规则。它接受一个`grid`参数，表示数独的当前状态。检查以下条件：
+
+- 每一行包含了从1到9的不重复数字。
+
+- 每一列包含了从1到9的不重复数字。
+- 每个3x3的小格子包含了从1到9的不重复数字。
+
+还有**`isSafe(grid, row, col, value)`函数：** 这个函数用于检查在给定位置（`row`行，`col`列）填入给定的数字`value`是否是安全的。它通过调用`checkCol`、`checkRow`和`checkBox`函数来确保在所在的行、列和3x3的小格子内没有重复的数字。
+
+### 附加分
+
+ - **可以输入数字、游戏界面-选中格子会有对应高亮**
+
+   灰色格子是待填的，可以点击下面的数字填入，然后选择灰色格子会有对应的行列九宫格的提示。
+
+   <img src="https://img-blog.csdnimg.cn/46d25866955d42fa8878121e48b68940.png" alt="fillHover" style="zoom:50%;" />
+
+ - **答案错误的提示** 
+
+  <img src="RE/5d68b4c98b9a4b2d860dc86094c7e0f5.png" alt="errorHint" style="zoom: 50%;" />
+
+## 结对记录
 
 关于结对，先通过共享腾讯文档，分享想法进度，然后制定了代码规范，根据需求讨论最终想要的效果。
 
@@ -156,25 +171,31 @@ how to run it
 ## 2、工作照片
 
  - **通过腾讯会议和共享文档交流**
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/ccdd6c6e62c64dd0ac6eab400056e410.png)![在这里插入图片描述](https://img-blog.csdnimg.cn/4f75a2bde24b4eb595ee2b9c8318e3f2.png)
+
+![onlineMeeting](RE/0e1d0b79cb1543c48ed2a915ed912c16.png)
+
+
+
+
+
  - **git提交记录**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/09b101a74ba047458cf86c4ca0d7ea7a.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/d8371a04bf9b4611acc711069dc6f941.png)
+
+
 
  - **线下沟通细节**
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/a4e7517d98204f5d8b8e10c42793c4f8.png)
+   <img src="RE/f619f992981e4380b09ede394e23e806.jpeg" alt="请添加图片描述" style="zoom: 25%;" />
 
-# 五、总结
+- 调试前端遇到一些问题
+
+  <img src="https://img-blog.csdnimg.cn/05c8437619e8457ab719fd6c54dac5ed.jpeg" alt="调试" style="zoom: 50%;" />
+
+## 总结
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2a0e7d2195184688b5ba3eeb4b0ade8a.png)**102299105**
 
->看到结对作业是用网页或者软件做一个数独游戏，第一反应是用暑假短暂接触过的小程序实现。最开始是准备用Axure搭建原型图，搭了一半后，听同学说题目应该是九个九宫格，这样意味着小程序实现，用户体验会很差。考虑到这一点，之前的考虑都需要推翻，我和搭档讨论了一下，还是决定用网页实现。原型图也要从来，这一次用的墨刀，先用X-mind确定需要的图片有哪些，搭建的整个过程还是比较顺利的。前端开始考虑用的Vue，后面发现直接用三件套，在js操作会比较方便，就还是一切从简。用js并发实现生成数独九宫格，还算顺利，但是想要生成九九宫格就比较麻烦了，参考同学的代码和开源码后都还是没有什么进展，所以我们最终是生成一个九宫格。
-
-> **难点主要集中**在没有接触过墨刀等原型图软件的使用、前后端不知道如何对接、对js也不够了解，好在墨刀软件非常容易上手，就是使用前需要先对所有需求有个大体规划，通过学习数独生成原理也容易理解。主要难点还是在于怎么才能同时生成有解的九九宫格。
-
-> 第一次结对编程作业，总体来说体验良好，遇见问题可以有伙伴可以讨论，工作进度可以彼此督促，沟通是合作的关键，可以让工作事半功倍！
+>因为是在第一次的基础上，所以工作量很明显比第一次有少一些，虽然还是很麻烦（苦笑）。第二次结对编程体验，比起第一次感受更好，因为前期代码规范等细节都已沟通好，这一次目标明确的继续完全新任务就好，虽然拖延double有点过分享受国庆。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/a47481edf7e74731890bfe0399e874fc.png)  **102299110**
 
@@ -187,4 +208,4 @@ how to run it
 >
 >然后成员1 可以把这个分支merge到主分支。
 >
->体验：结对编程有点意思，一方面是本次作业是做数独游戏，顺便玩了一会，一方面是网页上修改代码的效果刷新就能看到。
+>体验：相对于第一次会轻松一点，但还是挺花时间的，调试的时候也会遇到各种问题。想做出一个好的产品需要经常优化、打磨。

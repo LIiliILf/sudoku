@@ -202,6 +202,12 @@ nav {
     font-size: var(--font-size);
     cursor: pointer;
 }
+.sudoku-cell {
+    /* 在这里添加你想要的样式，例如背景颜色、边框、文字颜色等 */
+    background-color: var(--background-main);
+    color: var(--blue);
+    /* 添加其他样式属性，根据需要进行调整 */
+}
 
 .main-grid-cell.filled {
     background-color: var(--filled-background);
